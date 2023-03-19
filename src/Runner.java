@@ -10,7 +10,7 @@ public class Runner {
         Test1();
     }
 
-    // terminate immediately after 9 seconds
+    // terminate immediately after N (10) seconds
     public static void Test1() {
         System.out.println("Enter number of threads: "); //4
         int numOfThreads = in.nextInt();
@@ -19,12 +19,18 @@ public class Runner {
         long qTimeLim = in.nextLong();
 
         ThreadPool threadPool = new ThreadPool(numOfThreads, qTimeLim);
-        TaskGenerator taskGenerator = new TaskGenerator(threadPool, 2, 1000);
+        TaskGenerator taskGenerator = new TaskGenerator(threadPool, 20, 1000);
 
         try {
             threadPool.start();
             taskGenerator.setDaemon(true);
             taskGenerator.start();
+
+            Thread.sleep(10000);
+            threadPool.terminateNow();
+
+            System.out.println("Queue size: " + threadPool.getQSize());
+            System.out.printf("Thread-Pool alive status: %b", threadPool.isAlive());
 
             threadPool.join();
         } catch (InterruptedException e) {
@@ -37,22 +43,22 @@ public class Runner {
         System.out.println("Enter number of threads: "); //4
         int numOfThreads = in.nextInt();
 
-        System.out.println("Enter time limit for queue (in seconds): "); //50
-        int qTimeLim = in.nextInt();
+        System.out.println("Enter time limit for queue (in millis): "); //50_000
+        long qTimeLim = in.nextLong();
 
         ThreadPool threadPool = new ThreadPool(numOfThreads, qTimeLim);
         TaskGenerator taskGenerator = new TaskGenerator(threadPool, 20, 1000);
 
-        threadPool.start();
-        taskGenerator.setDaemon(true);
-        taskGenerator.start();
-
         try {
-            Thread.sleep(9000);
-            /*threadPool.terminateAfter();*/
+            threadPool.start();
+            taskGenerator.setDaemon(true);
+            taskGenerator.start();
+
+            Thread.sleep(5000);
+            threadPool.terminateAfter();
 
             System.out.println("Queue size: " + threadPool.getQSize());
-            System.out.println("Thread pool Alive status: " + threadPool.isAlive());
+            System.out.printf("Thread-Pool alive status: %b", threadPool.isAlive());
 
             threadPool.join();
         } catch (InterruptedException e) {

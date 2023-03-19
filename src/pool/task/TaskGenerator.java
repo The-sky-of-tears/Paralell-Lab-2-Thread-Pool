@@ -3,11 +3,11 @@ package pool.task;
 import pool.ThreadPool;
 
 public class TaskGenerator extends Thread{
-    private ThreadPool threadPool;
+    private final ThreadPool threadPool;
 
-    private int numOfTasks;
+    private final int numOfTasks;
 
-    private long period; //millis
+    private final long period; //millis
 
     public TaskGenerator(ThreadPool threadPool, int numOfTasks, long period) {
         this.threadPool = threadPool;
