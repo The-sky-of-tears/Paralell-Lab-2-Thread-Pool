@@ -18,7 +18,7 @@ public class TaskGenerator extends Thread{
     @Override
     public void run() {
         int counter = 0;
-        while(counter++ < numOfTasks) {
+        while(counter++ < numOfTasks && !threadPool.isTerminated()) {
             Task newTask = new Task();
 
             if (threadPool.addTask(newTask)) {

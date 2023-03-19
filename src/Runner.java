@@ -19,18 +19,17 @@ public class Runner {
         long qTimeLim = in.nextLong();
 
         ThreadPool threadPool = new ThreadPool(numOfThreads, qTimeLim);
-        TaskGenerator taskGenerator = new TaskGenerator(threadPool, 20, 1000);
+        TaskGenerator taskGenerator = new TaskGenerator(threadPool, 1, 1000);
 
         try {
             threadPool.start();
             taskGenerator.setDaemon(true);
             taskGenerator.start();
 
-            Thread.sleep(10000);
+            Thread.sleep(2000);
             threadPool.terminateNow();
 
-            System.out.println("Queue size: " + threadPool.getQSize());
-            System.out.printf("Thread-Pool alive status: %b", threadPool.isAlive());
+            System.out.printf("\nTermination called. Queue size: %d\n", threadPool.getQSize());
 
             threadPool.join();
         } catch (InterruptedException e) {
@@ -47,18 +46,17 @@ public class Runner {
         long qTimeLim = in.nextLong();
 
         ThreadPool threadPool = new ThreadPool(numOfThreads, qTimeLim);
-        TaskGenerator taskGenerator = new TaskGenerator(threadPool, 20, 1000);
+        TaskGenerator taskGenerator = new TaskGenerator(threadPool, 1, 1000);
 
         try {
             threadPool.start();
             taskGenerator.setDaemon(true);
             taskGenerator.start();
 
-            Thread.sleep(5000);
+            Thread.sleep(2000);
             threadPool.terminateAfter();
 
-            System.out.println("Queue size: " + threadPool.getQSize());
-            System.out.printf("Thread-Pool alive status: %b", threadPool.isAlive());
+            System.out.printf("\nTermination called. Queue size: %d\n", threadPool.getQSize());
 
             threadPool.join();
         } catch (InterruptedException e) {

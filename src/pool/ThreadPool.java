@@ -67,11 +67,11 @@ public class ThreadPool extends Thread{
     }
 
     synchronized public void terminateAfter() {
-/*        isTerminated = true;
+        isTerminated = true;
 
         synchronized (queue) {
             queue.notifyAll();
-        }*/
+        }
     }
 
     private class PoolWorker extends Thread{
@@ -85,13 +85,17 @@ public class ThreadPool extends Thread{
         public void run() {
             while(!Thread.interrupted()) {
                 synchronized (queue) {
-                    while (queue.isEmpty() && !isTerminated) {
+                    while (queue.isEmpty() && !isTerminated()) {
                         try {
                             queue.wait();
                         } catch (InterruptedException e) {
                             System.out.printf("PoolWorker id %d is interrupted while waiting\n", id);
                             return;
                         }
+                    }
+
+                    if (queue.isEmpty() && isTerminated()) {
+                        return;
                     }
                 }
 
