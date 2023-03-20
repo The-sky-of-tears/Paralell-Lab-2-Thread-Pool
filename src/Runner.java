@@ -19,14 +19,14 @@ public class Runner {
         long qTimeLim = in.nextLong();
 
         ThreadPool threadPool = new ThreadPool(numOfThreads, qTimeLim);
-        TaskGenerator taskGenerator = new TaskGenerator(threadPool, 1, 1000);
+        TaskGenerator taskGenerator = new TaskGenerator(threadPool, 20, 1000);
 
         try {
             threadPool.start();
             taskGenerator.setDaemon(true);
             taskGenerator.start();
 
-            Thread.sleep(2000);
+            Thread.sleep(10000);
             threadPool.terminateNow();
 
             System.out.printf("\nTermination called. Queue size: %d\n", threadPool.getQSize());
@@ -46,14 +46,14 @@ public class Runner {
         long qTimeLim = in.nextLong();
 
         ThreadPool threadPool = new ThreadPool(numOfThreads, qTimeLim);
-        TaskGenerator taskGenerator = new TaskGenerator(threadPool, 1, 1000);
+        TaskGenerator taskGenerator = new TaskGenerator(threadPool, 20, 1000);
 
         try {
             threadPool.start();
             taskGenerator.setDaemon(true);
             taskGenerator.start();
 
-            Thread.sleep(2000);
+            Thread.sleep(10000);
             threadPool.terminateAfter();
 
             System.out.printf("\nTermination called. Queue size: %d\n", threadPool.getQSize());

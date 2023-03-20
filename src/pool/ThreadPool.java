@@ -35,7 +35,7 @@ public class ThreadPool extends Thread{
         });
     }
 
-     public boolean addTask(Task newTask) {
+    public boolean addTask(Task newTask) {
         synchronized (this) {
             if (isTerminated) {
                 return false;
@@ -59,15 +59,20 @@ public class ThreadPool extends Thread{
         return isTerminated;
     }
 
-    synchronized public void terminateNow() {
-        isTerminated = true;
+    public void terminateNow() {
+        synchronized (this) {
+            isTerminated = true;
+        }
+
         threadPool.forEach(Thread::interrupt);
 
         queue.clear();
     }
 
-    synchronized public void terminateAfter() {
-        isTerminated = true;
+    public void terminateAfter() {
+        synchronized (this) {
+            isTerminated = true;
+        }
 
         synchronized (queue) {
             queue.notifyAll();
